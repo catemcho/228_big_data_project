@@ -1,0 +1,140 @@
+CREATE TABLE shows (
+  IMDB_ID VARCHAR(45) NOT NULL,
+  Title VARCHAR(100) NULL,
+  SeriesorMovie VARCHAR(45) NULL,
+  Runtime VARCHAR(45) NULL,
+  ViewRating VARCHAR(45) NULL,
+  ReleaseDate DATE NULL,
+  Budget FLOAT8 NULL,
+  Boxoffice FLOAT8 NULL,
+  PRIMARY KEY (IMDB_ID));
+
+CREATE TABLE show_perf (
+  IMDB_ID VARCHAR(45) NOT NULL,
+  IMDbScore DECIMAL(38) NULL,
+  IMDbVotes DECIMAL(38) NULL,
+  RottenTomatoesScore DECIMAL(38) NULL,
+  MetacriticScore DECIMAL(32) NULL,
+  AwardsReceived DECIMAL(38) NULL,
+  AwardsNominatedFor DECIMAL(38) NULL,
+  POPULARITY DECIMAL(38) NULL,
+  VOTE_AVERAGE DECIMAL(38) NULL,
+  VOTE_COUNT INT NULL,
+  PRIMARY KEY (IMDB_ID),
+  CONSTRAINT IMDB_ID
+    FOREIGN KEY (IMDB_ID)
+    REFERENCES shows (IMDB_ID));
+--
+CREATE TABLE Genres (
+  Genre_id VARCHAR(45) NOT NULL,
+  Genre_name VARCHAR(45) NULL,
+  PRIMARY KEY (Genre_id));
+
+CREATE TABLE Languages (
+  Language_id VARCHAR(45) NOT NULL,
+  Language_name VARCHAR(45) NULL,
+  PRIMARY KEY (Language_id));
+
+CREATE TABLE Countries (
+  Country_id VARCHAR(45) NOT NULL,
+  Country_name VARCHAR(45) NULL,
+  PRIMARY KEY (Country_id));
+--
+--
+--
+CREATE TABLE Writers (
+  Writer_id VARCHAR(45) NOT NULL,
+  Writer_name VARCHAR(45) NULL,
+  PRIMARY KEY (Writer_id));
+--
+CREATE TABLE show_Genre_relation (
+  IMDB_ID VARCHAR(45) NOT NULL,
+  Genre_id VARCHAR(45) NOT NULL,
+  PRIMARY KEY (IMDB_ID, Genre_id),
+  CONSTRAINT fk_show_genre_shows
+    FOREIGN KEY (IMDB_ID)
+    REFERENCES shows (IMDB_ID),
+  CONSTRAINT fk_show_genre_genres
+    FOREIGN KEY (Genre_id)
+    REFERENCES Genres (Genre_id));
+--
+CREATE TABLE show_Writer_relation (
+  IMDB_ID VARCHAR(45) NOT NULL,
+  Writer_id VARCHAR(45) NOT NULL,
+  PRIMARY KEY (IMDB_ID, Writer_id),
+  
+  CONSTRAINT fk_show_writer_shows
+    FOREIGN KEY (IMDB_ID)
+    REFERENCES shows (IMDB_ID),
+  CONSTRAINT fk_show_writer_writers
+    FOREIGN KEY (Writer_id)
+    REFERENCES Writers (Writer_id)
+    );
+--
+CREATE TABLE Directors (
+  Director_id VARCHAR(45) NOT NULL,
+  Director_name VARCHAR(45) NULL,
+  PRIMARY KEY (Director_id));
+--
+CREATE TABLE show_Director_relation (
+  IMDB_ID VARCHAR(45) NOT NULL,
+  Director_id VARCHAR(45) NOT NULL,
+  PRIMARY KEY (IMDB_ID, Director_id),
+  CONSTRAINT fk_show_director_shows
+    FOREIGN KEY (IMDB_ID)
+    REFERENCES shows (IMDB_ID)
+    
+    ,
+  CONSTRAINT fk_show_director_directors
+    FOREIGN KEY (Director_id)
+    REFERENCES Directors (Director_id)
+    
+    );
+--
+CREATE TABLE show_Actor_relation (
+  IMDB_ID VARCHAR(45) NOT NULL,
+  Actor_id VARCHAR(45) NOT NULL,
+  PRIMARY KEY (IMDB_ID, Actor_id),
+  
+  CONSTRAINT fk_show_actor_shows
+    FOREIGN KEY (IMDB_ID)
+    REFERENCES shows (IMDB_ID)
+    
+    ,
+  CONSTRAINT fk_show_actor_actors
+    FOREIGN KEY (Actor_id)
+    REFERENCES Actors (Actor_id)
+    
+    );
+--
+CREATE TABLE show_Country_relation (
+  IMDB_ID VARCHAR(45) NOT NULL,
+  Country_id VARCHAR(45) NOT NULL,
+  PRIMARY KEY (IMDB_ID, Country_id),
+  
+  CONSTRAINT fk_country_relation_shows
+    FOREIGN KEY (IMDB_ID)
+    REFERENCES shows (IMDB_ID)
+    
+    ,
+  CONSTRAINT fk_country_relation_countries
+    FOREIGN KEY (Country_id)
+    REFERENCES Countries (Country_id)
+    
+    );
+--
+
+CREATE TABLE show_Language_relation (
+  IMDB_ID VARCHAR(45) NOT NULL,
+  Language_id VARCHAR(45) NOT NULL,
+  PRIMARY KEY (IMDB_ID, Language_id),
+  CONSTRAINT fk_show_language_shows
+    FOREIGN KEY (IMDB_ID)
+    REFERENCES shows (IMDB_ID)
+    
+    ,
+  CONSTRAINT fk_show_language_languages
+    FOREIGN KEY (Language_id)
+    REFERENCES Languages (Language_id)
+    
+    );

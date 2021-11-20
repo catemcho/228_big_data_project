@@ -1,0 +1,5 @@
+copy shows
+from 's3://netflix-project-data228/shows.csv'
+iam_role 'arn:aws:iam::865792255985:role/netflix_cluster_role'
+region 'eu-west-1'
+delimiter ',';
